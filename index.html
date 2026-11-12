@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INNOVEXA | Haunted Treasure Quest</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home">INNOVEXA</a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#map">Quest Map</a>
+      <a href="#avatar">Avatar</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#admin">Admin</a>
+    </nav>
+    <div class="wallet">🎃 <span id="pumpkinCount">0</span></div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <p class="eyebrow">A MYSTERIOUS LEARNING ADVENTURE</p>
+        <h1>HAUNTED<br><span>TREASURE QUEST</span></h1>
+        <p>Enter the haunted island, solve coding challenges, unlock checkpoints and discover the hidden treasure.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#map">Start Your Quest</a>
+          <a class="btn secondary" href="#avatar">Customize Avatar</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>06</strong><span>Checkpoints</span></div>
+          <div><strong>03</strong><span>Difficulty Levels</span></div>
+          <div><strong>01</strong><span>Hidden Treasure</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Haunted castle illustration">
+        <div class="moon"></div>
+        <div class="castle">🏰</div>
+        <div class="ghost ghost-one">👻</div>
+        <div class="ghost ghost-two">👻</div>
+        <div class="bat">🦇</div>
+        <div class="hero-ground">☠️　🌲　🌲　🌲</div>
+      </div>
+    </section>
+
+    <section class="section" id="register">
+      <div class="section-heading">
+        <p class="eyebrow">YOUR ADVENTURE BEGINS</p>
+        <h2>Quest Registration</h2>
+        <p>Enter your details before entering the haunted island.</p>
+      </div>
+      <form id="registerForm" class="panel register-form">
+        <label for="playerName">Player name</label>
+        <input id="playerName" type="text" placeholder="Enter your name" required maxlength="24">
+        <label for="playerEmail">Email address</label>
+        <input id="playerEmail" type="email" placeholder="Enter your email" required>
+        <button class="btn primary" type="submit">Enter the Quest</button>
+        <p id="welcomeMessage" class="message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="section map-section" id="map">
+      <div class="section-heading">
+        <p class="eyebrow">EXPLORE THE UNKNOWN</p>
+        <h2>The Haunted Island</h2>
+        <p>Complete each checkpoint to unlock the next destination.</p>
+      </div>
+
+      <div class="map-layout">
+        <div class="island-map">
+          <div class="map-label">MYSTERY ISLAND</div>
+          <div class="map-path"></div>
+          <button class="checkpoint active" data-stage="0" style="--x:15%;--y:78%">
+            <span class="checkpoint-icon">🏚️</span><span>01 · Old House</span>
+          </button>
+          <button class="checkpoint locked" data-stage="1" style="--x:36%;--y:62%">
+            <span class="checkpoint-icon">🌲</span><span>02 · Dark Forest</span>
+          </button>
+          <button class="checkpoint locked" data-stage="2" style="--x:62%;--y:72%">
+            <span class="checkpoint-icon">🪦</span><span>03 · Graveyard</span>
+          </button>
+          <button class="checkpoint locked" data-stage="3" style="--x:78%;--y:48%">
+            <span class="checkpoint-icon">🕸️</span><span>04 · Spider Cave</span>
+          </button>
+          <button class="checkpoint locked" data-stage="4" style="--x:48%;--y:31%">
+            <span class="checkpoint-icon">🌋</span><span>05 · Fire Mountain</span>
+          </button>
+          <button class="checkpoint locked" data-stage="5" style="--x:80%;--y:15%">
+            <span class="checkpoint-icon">🏰</span><span>06 · Haunted Castle</span>
+          </button>
+          <div class="map-decoration decoration-one">🦇</div>
+          <div class="map-decoration decoration-two">🎃</div>
+          <div class="map-decoration decoration-three">🌳</div>
+        </div>
+
+        <aside class="panel progress-panel">
+          <h3>Your Quest Progress</h3>
+          <div class="progress-number"><span id="completedCount">0</span>/6</div>
+          <div class="progress-track"><div id="progressBar"></div></div>
+          <p id="progressText">Your adventure is waiting!</p>
+          <div class="difficulty-setting">
+            <label for="difficulty">Choose difficulty</label>
+            <select id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <p class="small-note">Correct answers earn pumpkins. Use hints when you need help.</p>
+          <button class="btn secondary full" id="resetProgress" type="button">Reset My Progress</button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section quiz-section" id="quiz">
+      <div class="section-heading">
+        <p class="eyebrow">TEST YOUR KNOWLEDGE</p>
+        <h2>Quest Challenge</h2>
+        <p>Choose an unlocked checkpoint on the map to begin.</p>
+      </div>
+      <div class="panel quiz-panel">
+        <div class="quiz-top">
+          <div>
+            <p class="eyebrow" id="stageLabel">NO CHECKPOINT SELECTED</p>
+            <h3 id="quizTitle">Your challenge awaits</h3>
+          </div>
+          <div class="timer-box">⏱ <span id="timer">--</span></div>
+        </div>
+        <div class="quiz-meta">
+          <span id="questionNumber">Question 0/0</span>
+          <span id="quizDifficulty">Difficulty: Easy</span>
+        </div>
+        <div class="question-area">
+          <p id="questionText">Select a checkpoint from the island map to start your quiz.</p>
+          <div id="answerOptions" class="answer-options"></div>
+        </div>
+        <div class="quiz-actions">
+          <button class="btn secondary" id="hintButton" type="button" disabled>💡 Use Hint</button>
+          <button class="btn primary" id="nextButton" type="button" disabled>Next Question</button>
+        </div>
+        <p id="quizFeedback" class="message" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="section" id="avatar">
+      <div class="section-heading">
+        <p class="eyebrow">MAKE YOUR CHARACTER UNIQUE</p>
+        <h2>Avatar Studio</h2>
+        <p>Customize your character before continuing your adventure.</p>
+      </div>
+      <div class="avatar-layout">
+        <div class="panel avatar-preview-panel">
+          <div class="avatar-stage">
+            <div class="avatar-character" id="avatarCharacter" data-hair="long" data-outfit="witch">
+              <div class="avatar-pet" id="previewPet">🐈‍⬛</div>
+              <div class="avatar-accessory" id="previewAccessory">✨</div>
+              <div class="avatar-hair" id="previewHair"></div>
+              <div class="avatar-face" id="previewFace">
+                <div class="face-eyes"><i></i><i></i></div>
+                <div class="face-mouth"></div>
+              </div>
+              <div class="avatar-neck"></div>
+              <div class="avatar-body" id="previewOutfit"></div>
+            </div>
+          </div>
+          <h3 id="avatarName">Your Adventurer</h3>
+          <p class="small-note">Your customized character</p>
+          <button class="btn secondary full" id="saveAvatar" type="button">Save Avatar</button>
+        </div>
+
+        <div class="panel avatar-controls">
+          <div class="customization-section">
+            <h3>Skin Tone</h3>
+            <div class="swatch-row" id="skinChoices">
+              <button class="swatch skin-swatch selected" data-skin="#f5c6a5" style="--swatch:#f5c6a5" aria-label="Light skin"></button>
+              <button class="swatch skin-swatch" data-skin="#d99b72" style="--swatch:#d99b72" aria-label="Medium skin"></button>
+              <button class="swatch skin-swatch" data-skin="#a96743" style="--swatch:#a96743" aria-label="Tan skin"></button>
+              <button class="swatch skin-swatch" data-skin="#70452f" style="--swatch:#70452f" aria-label="Deep skin"></button>
+              <button class="swatch skin-swatch" data-skin="#edb99b" style="--swatch:#edb99b" aria-label="Warm skin"></button>
+            </div>
+          </div>
+
+          <div class="customization-section">
+            <h3>Hairstyle</h3>
+            <div class="choice-container" id="hairChoices">
+              <button class="choice selected" data-hair="long">Long</button>
+              <button class="choice" data-hair="short">Short</button>
+              <button class="choice" data-hair="curly">Curly</button>
+              <button class="choice" data-hair="wavy">Wavy</button>
+              <button class="choice" data-hair="ponytail">Ponytail</button>
+              <button class="choice" data-hair="afro">Afro</button>
+            </div>
+          </div>
+
+          <div class="customization-section">
+            <h3>Hair Colour</h3>
+            <div class="swatch-row" id="hairColorChoices">
+              <button class="swatch color-swatch selected" data-color="#24162d" style="--swatch:#24162d" aria-label="Black"></button>
+              <button class="swatch color-swatch" data-color="#713b22" style="--swatch:#713b22" aria-label="Brown"></button>
+              <button class="swatch color-swatch" data-color="#d94b38" style="--swatch:#d94b38" aria-label="Red"></button>
+              <button class="swatch color-swatch" data-color="#e0b53c" style="--swatch:#e0b53c" aria-label="Blonde"></button>
+              <button class="swatch color-swatch" data-color="#873bd1" style="--swatch:#873bd1" aria-label="Purple"></button>
+              <button class="swatch color-swatch" data-color="#277b65" style="--swatch:#277b65" aria-label="Green"></button>
+              <button class="swatch color-swatch" data-color="#e879ae" style="--swatch:#e879ae" aria-label="Pink"></button>
+            </div>
+          </div>
+
+          <div class="customization-section">
+            <h3>Outfit</h3>
+            <div class="choice-container" id="outfitChoices">
+              <button class="choice selected" data-outfit="witch">Witch</button>
+              <button class="choice" data-outfit="vampire">Vampire</button>
+              <button class="choice" data-outfit="ghost">Ghost</button>
+              <button class="choice" data-outfit="adventurer">Adventurer</button>
+              <button class="choice" data-outfit="royal">Royal</button>
+            </div>
+          </div>
+
+          <div class="customization-section">
+            <h3>Accessory</h3>
+            <div class="choice-container" id="accessoryChoices">
+              <button class="choice selected" data-accessory="✨">✨ Sparkles</button>
+              <button class="choice" data-accessory="👑">👑 Crown</button>
+              <button class="choice" data-accessory="🎩">🎩 Hat</button>
+              <button class="choice" data-accessory="🕶️">🕶️ Glasses</button>
+              <button class="choice" data-accessory="🦇">🦇 Bat</button>
+              <button class="choice" data-accessory="">None</button>
+            </div>
+          </div>
+
+          <div class="customization-section">
+            <h3>Choose a Pet</h3>
+            <div class="choice-container" id="petChoices">
+              <button class="choice selected" data-pet="🐈‍⬛">🐈‍⬛ Cat</button>
+              <button class="choice" data-pet="🦇">🦇 Bat</button>
+              <button class="choice" data-pet="🐺">🐺 Wolf</button>
+              <button class="choice" data-pet="🐸">🐸 Frog</button>
+              <button class="choice" data-pet="🦉">🦉 Owl</button>
+              <button class="choice" data-pet="">None</button>
+            </div>
+          </div>
+          <p id="avatarMessage" class="message" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="leaderboard">
+      <div class="section-heading">
+        <p class="eyebrow">WHO WILL FIND THE TREASURE?</p>
+        <h2>Leaderboard</h2>
+        <p>Players are ranked according to the pumpkins they collect.</p>
+      </div>
+      <div class="panel leaderboard-panel">
+        <div class="leaderboard-head"><span>Rank</span><span>Player</span><span>Pumpkins</span></div>
+        <div id="leaderboardRows"></div>
+      </div>
+    </section>
+
+    <section class="section treasure-section" id="treasure">
+      <div class="treasure-art">🗝️　🎁　🗝️</div>
+      <p class="eyebrow">THE FINAL DISCOVERY</p>
+      <h2>Hidden Treasure</h2>
+      <p id="treasureMessage">Complete all six checkpoints to unlock the legendary treasure.</p>
+      <div class="treasure-chest" id="treasureChest">🔒</div>
+      <button class="btn primary" id="claimTreasure" type="button" disabled>Unlock Treasure</button>
+    </section>
+
+    <section class="section" id="admin">
+      <div class="section-heading">
+        <p class="eyebrow">PROJECT DEMONSTRATION</p>
+        <h2>Admin Dashboard</h2>
+        <p>A local demo view of player progress and quiz activity.</p>
+      </div>
+      <div class="admin-grid">
+        <div class="panel admin-card"><span>Registered Player</span><strong id="adminPlayer">0</strong></div>
+        <div class="panel admin-card"><span>Completed Checkpoints</span><strong id="adminCompleted">0</strong></div>
+        <div class="panel admin-card"><span>Pumpkins Collected</span><strong id="adminPumpkins">0</strong></div>
+      </div>
+      <div class="panel admin-table">
+        <h3>Current Player Details</h3>
+        <p id="adminDetails">No player has registered yet.</p>
+        <button class="btn secondary" id="refreshAdmin" type="button">Refresh Dashboard</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <h2>INNOVEXA</h2>
+    <p>Learn. Explore. Conquer.</p>
+    <p class="small-note">Haunted Treasure Quest · Educational Quiz Game</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
